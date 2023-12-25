@@ -1,0 +1,16 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block style %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="{% static 'index.js'%}"></script>
+{% endblock %}
+
+{% block main %}
+<div id="chart" style="width: 600px; margin: 40px auto"></div>
+
+<script>
+    var data = '{{data|escapejs}}'
+    console.log('data')
+    console.log(data)
+</script>
+{% endblock %}

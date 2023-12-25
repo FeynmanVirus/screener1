@@ -1,0 +1,137 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+
+{% block styling %}
+
+.blue { color: #185875; }
+.yellow { color: #FFF842; }
+
+.container-table td {
+	  font-weight: normal;
+	  font-size: 1em;
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
+	        box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.container-table tr:hover {
+-webkit-box-shadow: 0 6px 6px -6px #0E1119;
+	   -moz-box-shadow: 0 6px 6px -6px #0E1119;
+	        box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+.container-table td:hover {
+  background-color: #FFF842;
+  color: #403E10;
+  font-weight: bold;
+  
+  box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+  transform: translate3d(6px, -6px, 0);
+  
+  transition-delay: 0s;
+	  transition-duration: 0.4s;
+	  transition-property: all;
+  transition-timing-function: line;
+}
+
+{% endblock %}
+
+
+{% block main %}
+
+<h1 class="mt-4 text-gray-900 text-center dark:text-white font-bold text-1xl md:text-2xl xl:text-3xl">TradeWise Analysis</h1>
+
+<div class="w-3/5 text-center flex whitespace-nowrap mx-auto  mt-8">
+{% for screener in screeners %}
+    {% if current_title == screener.title %}
+    <div class="">
+    <a href="{% url 'core:screener' title=screener.title clause=current_clause %}" class="active-screener ms-auto text-gray-900 bg-gray-300 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">{{screener.title}}</a>
+    </div>
+    {% else %}
+    <div class="">
+    <a href="{% url 'core:screener' title=screener.title clause=current_clause %}" class="ms-auto text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium  text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">{{screener.title}}</a>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+<div class="w-3/5 text-center flex whitespace-nowrap mx-auto  mt-8">
+{% for clause in clauses %}
+  {% if current_clause|lower == clause|lower %}
+    <div class="">
+    <a href="{% url 'core:screener' title=current_title clause=clause %}" class="active-clause ms-auto text-gray-900 bg-gray-300 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">{{clause}}</a>
+    </div>
+    {% else %}
+    <div class="">
+    <a href="{% url 'core:screener' title=current_title clause=clause %}" class="ms-auto text-gray-900 bg-gray-50 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium text-sm rounded-md px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-800">{{clause}}</a>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+<div id="live" class="w-3/5 text-center mx-auto flex whitespace-nowrapmx-auto  mt-8">
+    <span class="dark:text-gray-50 align-middle text-lg">LIVE</span>
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="6" fill="#f44336"></circle><path fill="#f44336" d="M17.09,16.789L14.321,13.9C11.663,16.448,10,20.027,10,24s1.663,7.552,4.321,10.1l2.769-2.889 C15.19,29.389,14,26.833,14,24C14,21.167,15.19,18.61,17.09,16.789z"></path><path fill="#f44336" d="M33.679,13.9l-2.769,2.889C32.81,18.611,34,21.167,34,24c0,2.833-1.19,5.389-3.09,7.211l2.769,2.889 C36.337,31.552,38,27.973,38,24S36.337,16.448,33.679,13.9z"></path><g><path fill="#f44336" d="M11.561,11.021l-2.779-2.9C4.605,12.125,2,17.757,2,24s2.605,11.875,6.782,15.879l2.779-2.9 C8.142,33.701,6,29.1,6,24S8.142,14.299,11.561,11.021z"></path><path fill="#f44336" d="M39.218,8.121l-2.779,2.9C39.858,14.299,42,18.9,42,24s-2.142,9.701-5.561,12.979l2.779,2.9 C43.395,35.875,46,30.243,46,24S43.395,12.125,39.218,8.121z"></path></g>
+    </svg>
+</div>
+<div id="table" class="relative overflow-y-auto overflow-x-auto text-center sm:rounded-lg" style="height: 50vh;">	
+   <table id="mytable" class="container-table w-full ms-auto me-auto lg:w-3/5 text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs sticky text-gray-700 top-0 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    NSE Code
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Company Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    % change
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Close 
+                </th>
+            </tr>
+        </thead>
+        <tbody class="">
+            {% for stock in stocks %}
+            <tr class="border-b2 even:bg-gray-50 odd:bg-white even:dark:bg-gray-700 odd:dark:bg-gray-800">
+                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{stock.nsecode}}
+                </td>
+                <td class="px-6 py-4">
+                    <a href="https://www.tradingview.com/chart/?symbol=NSE%3A{{stock.nsecode}}" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{stock.name}}</a>
+                </td>
+                <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    {{stock.per_chg}}
+                </td>
+                <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    {{stock.close}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+ date = new Date()
+    const today = 'Y-m-d'
+                .replace('Y', date.getFullYear())
+                .replace('m', date.getMonth()+1)
+                .replace('d', date.getDate()); 
+    fetch(`/market_is_open/${today}`)
+    .then(res =>  res.json())
+    .then(res => {
+        const live = document.getElementById('live')
+        const table = document.getElementById('table')
+        const classes = "w-3/5 text-center mx-auto flex whitespace-nowrapmx-auto  mt-8"
+        if (res['status'] == false || res['hours'] == false) {
+            live.classList.add('hidden')
+            table.classList.add('mt-8')
+        }
+        else {
+            live.classList.add(classes)
+        }
+    })
+</script>
+{% endblock %}
